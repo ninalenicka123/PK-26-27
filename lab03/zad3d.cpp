@@ -12,7 +12,7 @@ int main(){
         cout<<"N musi być nieujemne"<<endl;
         return 1;
     }
-    int silnia=1;
+    long long silnia=1;
     for(int i=1;i<=n;i++){
         silnia*=i;
     }
