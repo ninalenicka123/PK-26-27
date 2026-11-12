@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -34,6 +35,7 @@ int main(){
         cout << "Nieprawidłowe działanie" << endl;
         return 0;
     }
+    cout << fixed << setprecision (6);
     cout << "Wynik: " << wynik << endl;
 
 
