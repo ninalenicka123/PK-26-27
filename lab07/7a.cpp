@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 
 using namespace std;
@@ -9,8 +10,8 @@ const int MAX_N = 100;
 double wartoscwielomianu (double x,  double T[], int n){
 
     double wartosc=0;
-    for (int i=0; i<n; i++){
-        wartosc+= x*T[i];
+    for (int i=0; i<=n; i++){
+        wartosc+= pow(x,i)*T[i];
     }
     return wartosc;
 
@@ -26,21 +27,22 @@ bool czy_mzerowe (double a, double b, double T[], int n){
     return false;
     
 }
-double bisekcja(double a, double b, double wsp[], int n) {
+double bisekcja(double a, double b, double T[], int n) {
     
-    // liczymy połowę przedziału ze wzoru polowa = (a+b) / 2
-    // liczymy wartosc wielomianu dla 'polowa' - > wartoscWielomianu (...), wynik wywołania funkcji przypisujemy do zmiennej... np fpolowa
-
-    // sprawdzamy warunek stopu rekurencji - moze wlasnie znalezlismy miejse zerowe?
-    // warunkiem stopu jest znalezienie miejsca zerowego, czyli wartość f(polowa) < EPS lub (b - a) < EPS (przedział już tak mały, że traktujemy jako miejsce zerowe
-
-    //liczymy wartosci wielomianu dla a fa = wartoscWielomianu(a, ....)
-
-    // szukamy przedzialu gdzie funkcja zmienai znak, czyli sprawdzamy czy f(a) * fpolowa <=0 jeśli tak, to jest nasz nowy przedzial dla rekurencji
-    // jesli nie, naszym przedzialem dla rekurencji jest bisekcja(polowa, b, wsp, n)
-
+    double polowa = (a+b)/2;
+    double wartpolowa = wartoscwielomianu(polowa, T, n);
+    if (fabs(wartpolowa)<EPS || fabs(b-a)<EPS)
+        return polowa;
+    else{
+        double warta = wartoscwielomianu (a, T, n);
+        if (warta * wartpolowa <0)
+            b=polowa;
+        else 
+            a=polowa;
+        return bisekcja (a,b,T,n);
+    }
+    
 }
-
 
 int main(){
 
@@ -60,7 +62,11 @@ int main(){
     }
     if (czy_mzerowe(a,b,T,n) == 0){
         cout << "Brak miejsca zerowego w zadanym przedziale" << endl;
+        return 0;
     }
+    cout << fixed << setprecision (3);
+    cout << "Miejsce zerowe: " <<bisekcja(a,b,T,n);
+
 
     return 0;
 }
